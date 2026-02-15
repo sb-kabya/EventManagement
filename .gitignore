@@ -12,3 +12,4 @@ venv/
 *.pot
 /static/
 media/
+node_modules/

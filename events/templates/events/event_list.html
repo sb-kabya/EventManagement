@@ -1,0 +1,45 @@
+{% extends 'events/base.html' %}
+
+{% block title %}All Events{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6 text-gray-800">All Events</h1>
+<!-- Search -->
+<form method="GET" class="mb-6 flex space-x-3">
+    <input type="text" name="search" placeholder="Search by name or location"
+           value="{{ request.GET.search }}"
+           class="flex-grow p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    <button type="submit"
+            class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition">Search</button>
+</form>
+<!-- Event Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for event in events %}
+    <div class="bg-white shadow-lg rounded-lg p-5 hover:shadow-2xl transform hover:-translate-y-1 transition duration-300">
+        <a href="{% url 'events:event_detail' event.pk %}" class="block mb-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-1">{{ event.name }}</h2>
+            <p class="text-sm text-gray-500 mb-2">{{ event.date }} | {{ event.time }}</p>
+            <p class="text-gray-700 mb-2">{{ event.location }}</p>
+            <p class="text-sm text-gray-600 mb-2">
+                Category: <span class="font-medium">{{ event.category.name }}</span>
+            </p>
+            <p class="text-sm text-gray-600">
+                Participants: <span class="font-medium">{{ event.participants.count }}</span>
+            </p>
+        </a>
+        <div class="flex justify-between">
+            <a href="{% url 'events:update_event' event.pk %}" class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-2 rounded-lg shadow">
+                Edit
+            </a>
+            <form action="{% url 'events:event_delete' event.pk %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg shadow">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+        <p class="text-gray-500 col-span-full">No events found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

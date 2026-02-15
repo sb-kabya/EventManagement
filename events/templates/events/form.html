@@ -1,0 +1,39 @@
+{% extends 'events/base.html' %}
+
+{% block title %}Event Form{% endblock %}
+
+{% block content %}
+<div >
+
+    <h2 class="text-2xl font-bold mb-6">
+        {% if form.instance.pk %}
+            Edit Event
+        {% else %}
+            Add Event
+        {% endif %}
+    </h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-4">
+                <label class="block font-semibold mb-1">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                    <p class="text-red-500 text-sm">
+                        {{ field.errors }}
+                    </p>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            Save
+        </button>
+
+    </form>
+</div>
+{% endblock %}

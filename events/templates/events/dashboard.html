@@ -1,0 +1,50 @@
+{% extends 'events/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <a href="{% url 'events:event_list' %}" 
+       class="block bg-gradient-to-r from-cyan-500 to-cyan-400 shadow-lg rounded p-5 text-white hover:scale-105 transform transition">
+        <h2 class="text-lg font-medium">Total Events</h2>
+        <p class="text-3xl font-bold mt-2">{{ total_events }}</p>
+    </a>
+    <a href="{% url 'events:event_list' %}?filter=participants" 
+       class="block bg-gradient-to-r from-indigo-500 to-indigo-400 shadow-lg rounded p-5 text-white hover:scale-105 transform transition">
+        <h2 class="text-lg font-medium">Total Participants</h2>
+        <p class="text-3xl font-bold mt-2">{{ total_participants }}</p>
+    </a>
+    <a href="{% url 'events:event_list' %}?filter=upcoming" 
+       class="block bg-gradient-to-r from-rose-400 to-rose-300 shadow-lg rounded p-5 text-white hover:scale-105 transform transition">
+        <h2 class="text-lg font-medium">Upcoming Events</h2>
+        <p class="text-3xl font-bold mt-2">{{ upcoming }}</p>
+    </a>
+
+    <a href="{% url 'events:event_list' %}?filter=past" 
+       class="block bg-gradient-to-r from-orange-400 to-orange-300 shadow-lg rounded p-5 text-white hover:scale-105 transform transition">
+        <h2 class="text-lg font-medium">Past Events</h2>
+        <p class="text-3xl font-bold mt-2">{{ past }}</p>
+    </a>
+</div>
+
+
+<!-- Today Events -->
+<div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Today's Events</h2>
+    {% if todays_events %}
+        <ul class="divide-y divide-gray-200">
+            {% for event in todays_events %}
+            <li class="py-4 flex justify-between items-center hover:bg-gray-50 transition px-2 rounded">
+                <div>
+                    <p class="font-bold text-lg text-blue-600">{{ event.name }}</p>
+                    <p class="text-sm text-gray-600">{{ event.time }} | {{ event.location }}</p>
+                </div>
+                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">{{ event.category.name }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-gray-500">No events scheduled for today.</p>
+    {% endif %}
+</div>
+{% endblock %}

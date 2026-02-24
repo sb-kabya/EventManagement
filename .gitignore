@@ -2,14 +2,16 @@
 __pycache__/
 *.py[cod]
 *.sqlite3
-
+*.pyc
 # Environment
 venv/
 *.env
-
+# events/migrations/*.pyc
+# !events/migrations/__init__.py
 # Django
 *.log
 *.pot
-/static/
+/staticfiles/
 media/
 node_modules/
+.cache

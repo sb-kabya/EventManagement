@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.views.generic import RedirectView
+from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url='/dashboard/', permanent=False)),
     path('', include('events.urls')),
-]
+] + debug_toolbar_urls()

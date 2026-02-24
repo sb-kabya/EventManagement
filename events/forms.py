@@ -1,43 +1,19 @@
 from django import forms
-from .models import Event, Participant, Category
-
-
-class CategoryForm(forms.ModelForm):
-    class Meta:
-        model = Category
-        fields = '__all__'
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .models import Event
 
 
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = '__all__'
-        widgets = {
-            'name': forms.TextInput(attrs={
-                'class': 'w-full border border-gray-300 rounded px-3 py-2 '
-            }),
-            'description': forms.TextInput(attrs={
-                'class': 'w-full border border-gray-300 rounded px-3 py-2'
-            }),
-            'date': forms.DateInput(attrs={
-                'type': 'date',
-                'class': 'w-full border border-gray-300 rounded px-3 py-2'
-            }),
-            'time': forms.TimeInput(attrs={
-                'type': 'time',
-                'class': 'w-full border border-gray-300 rounded px-3 py-2'
-            }),
-            'location': forms.TextInput(attrs={
-                'class': 'w-full border border-gray-300 rounded px-3 py-2'
-            }),
-            'category': forms.Select(attrs={
-                'class': 'w-full border border-gray-300 rounded px-3 py-2'
-            }),
-
-        }
 
 
-class ParticipantForm(forms.ModelForm):
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField()
+
     class Meta:
-        model = Participant
-        fields = '__all__'
+        model = User
+        fields = ['username', 'first_name', 'last_name',
+                  'email', 'password1', 'password2']

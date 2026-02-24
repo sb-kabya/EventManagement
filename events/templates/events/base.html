@@ -10,15 +10,26 @@
 <!-- Navigation -->
 <nav class="bg-blue-500 shadow-md">
     <div class="container mx-auto px-6 py-4 flex justify-between items-center text-white">
-        <a href="{% url 'events:dashboard' %}" class="font-bold text-2xl hover:text-gray-100">EventManagement</a>
+        <a href="{% url 'events:dashboard_redirect' %}" class="font-bold text-2xl hover:text-gray-100">EventManagement</a>
         <div class="space-x-6">
-            <a href="{% url 'events:dashboard' %}" class="hover:text-gray-200">Dashboard</a>
-            <a href="{% url 'events:event_list' %}" class="hover:text-gray-200">Events</a>
-            <a href="{% url 'events:event_add' %}" class="font-semibold bg-white text-blue-500 px-4 py-2 rounded shadow hover:shadow-lg transition">Add Event</a>
+            {% if user.is_authenticated %}
+                <span class="font-semibold">Hello, {{ user.username }}</span>
+                <a href="{% url 'events:dashboard_redirect' %}" class="hover:text-gray-200">Dashboard</a>
+                <a href="{% url 'events:event_list' %}" class="hover:text-gray-200">Events</a>
+                {% if can_add_event %}
+                    <a href="{% url 'events:event_add' %}" 
+                       class="font-semibold bg-white text-blue-500 px-4 py-2 rounded shadow hover:shadow-lg transition">
+                        Add Event
+                    </a>
+                {% endif %}
+                <a href="{% url 'events:logout' %}" class="hover:text-gray-200">Logout</a>
+            {% else %}
+                <a href="{% url 'events:login' %}" class="hover:text-gray-200">Login</a>
+                <a href="{% url 'events:signup' %}" class="hover:text-gray-200">Signup</a>
+            {% endif %}
         </div>
     </div>
 </nav>
-
 <div class="container mx-auto px-6 py-8">
     {% block content %}
     {% endblock %}

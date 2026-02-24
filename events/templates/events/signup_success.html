@@ -1,0 +1,13 @@
+{% extends 'events/base.html' %}
+
+{% block title %}Signup Successful{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto p-6 bg-white rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Signup Successful.</h1>
+    <p class="mb-2">An activation email has been sent to:</p>
+    <p class="font-semibold">{{ email }}</p>
+    <p class="mt-4 text-gray-600">
+        Please check your email and click the activation link to activate your account.
+    </p>
+</div>
+{% endblock %}

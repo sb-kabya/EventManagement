@@ -2,6 +2,7 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
 <h1 class="text-3xl font-bold mb-6 text-gray-800">Dashboard</h1>
+
 <!-- Grid -->
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
     <a href="{% url 'events:event_list' %}" 
@@ -26,7 +27,6 @@
         <p class="text-3xl font-bold mt-2">{{ past }}</p>
     </a>
 </div>
-
 
 <!-- Today Events -->
 <div class="bg-white shadow rounded-lg p-6">

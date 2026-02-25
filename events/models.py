@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -8,9 +9,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-
-organizer = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
 
 class Event(models.Model):
@@ -22,7 +20,12 @@ class Event(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name='events')
     organizer = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='organized_events', null=True, blank=True)
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='organized_events',
+        null=True,
+        blank=True
+    )
     image = models.ImageField(
         upload_to='event_images/', default='event_images/default.jpg')
 
@@ -32,7 +35,10 @@ class Event(models.Model):
 
 class RSVP(models.Model):
     STATUS_CHOICES = [('GOING', 'Going'), ('NOT_GOING', 'Not Going')]
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
     event = models.ForeignKey(
         Event, on_delete=models.CASCADE, related_name='rsvps')
     status = models.CharField(

@@ -48,35 +48,6 @@ class SignUpView(View):
         return render(request, 'events/signup.html', {'form': form})
 
 
-class SignUpView(View):
-    def get(self, request):
-        form = SignUpForm()
-        return render(request, 'events/signup.html', {'form': form})
-
-    def post(self, request):
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-
-            activation_link = request.build_absolute_uri(
-                f"/activate/{user.id}/"
-            )
-
-            send_mail(
-                'Activate Your Account',
-                f'Click this link to activate your account: {activation_link}',
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-
-            return render(request, 'events/signup_success.html', {'email': user.email})
-
-        return render(request, 'events/signup.html', {'form': form})
-
-
 def logout_view(request):
     logout(request)
     return redirect('events:login')
